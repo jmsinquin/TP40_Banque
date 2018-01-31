@@ -237,8 +237,8 @@ public class FenetrePpale extends JFrame {
 	 * @param liste La liste à afficher dans la zone scrollable gestionnaire
 	 */
 	public void setListeClients(DefaultListModel<String> liste) {
-		fen.setPanClieVisible(false);	// Rend invisible le panneau Client
-		fen.setPanGestVisible(true);	// Rend visible le panneau Gestionnaire
+		setPanClieVisible(false);	// Rend invisible le panneau Client
+		setPanGestVisible(true);	// Rend visible le panneau Gestionnaire
 		jlistPF.setModel(liste);		// Mise à jour de la source de la liste
 	}
 	
