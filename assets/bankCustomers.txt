@@ -1,0 +1,12 @@
+Aline*123456*53*femme
+Bruno*234561*25*homme
+Charles*345621*30*homme
+Diane*456321*33*femme
+Elsa*123456*45*femme
+Fabio*654321*35*homme
+Genna*341256*25*femme
+Hylan*135246*35*homme
+Izza*654312*37*femme
+Jaber*564123*45*homme
+Karen*561263*65*femme
+Leone*364521*35*homme
