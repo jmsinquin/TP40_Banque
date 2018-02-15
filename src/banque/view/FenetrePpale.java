@@ -29,7 +29,6 @@ import banque.DemoAppli;
 import banque.model.Client;
 import banque.model.Compte;
 import banque.model.TrierComptes;
-import banque.model.TrierPersonne;
 
 /**
  * La partie VUE dans un pattern MVC

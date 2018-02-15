@@ -8,7 +8,6 @@ import java.io.IOException;
 
 import banque.controler.ControleurFenetrePpale;
 import banque.model.Client;
-import banque.model.Compte;
 import banque.model.Gestionnaire;
 import banque.view.FenetrePpale;
 
@@ -62,19 +61,16 @@ public class DemoAppli {
         banquier.listerCompte();
         
         // Test débiter, créditer, transférer
-        testOperations(banquier);
+        //testOperations(banquier);
         
         // Affiche le chiffre d'affaire du banquier
         System.out.println(banquier.getCA()); 
 	}
 	
-	private static void testCABanquier() {
-		
-	}
 	
-	/*
+/*	
 	 * Test les opérations créditer, débiter et transférer pour un client et un banquier
-	 */
+	 
 	private static void testOperations(Gestionnaire banquier) {
 		System.out.println("");
 		System.out.println("------------------------------");
@@ -113,9 +109,10 @@ public class DemoAppli {
 		System.out.println("Le banquier transfère 500€ du client 2 au le client 1 : ");
 		banquier.transferer(cl1, numCpte1, cl2, numCpte2, 500);
 		System.out.println("Solde du compte client 1 : " + cpte1.getSolde() );
-		System.out.println("Solde du compte client 2 : " + cpte2.getSolde() );
-		
+		System.out.println("Solde du compte client 2 : " + cpte2.getSolde() );	
 	}
+
+*/
 	
 	/*
 	 * Créer un nombre aléatoire (entre 1 et 3) de compte pour chaque client du banquier donné en paramètre
@@ -151,7 +148,6 @@ public class DemoAppli {
 	 * @return Un nombre entre -1000.00 et 100000.00
 	 */
 	private static float calculSoldeDepart() {
-		//double d=((-1000 + Math.random()*99001))*100;
 		int i = (int) ((-1000 + Math.random()*99001)*100);
 		float ff = (float) (i/100.);
 		return ff;
@@ -162,7 +158,7 @@ public class DemoAppli {
 	 */
 	private static String typeDeCompte() {
 		int typeCpte = (int) (Math.random()*2);	// Nombre 0 ou 1
-		return (typeCpte == 0 ? "dépot" : "placement");
+		return (typeCpte == 0 ? "Dépot" : "Placement");
 	}
 	
 	/*
