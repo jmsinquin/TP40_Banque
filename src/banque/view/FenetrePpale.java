@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -24,19 +26,18 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import banque.DemoAppli;
+import banque.model.Client;
 import banque.model.Compte;
 import banque.model.TrierComptes;
+import banque.model.TrierPersonne;
 
 /**
- * @author Jean-Marc
  * La partie VUE dans un pattern MVC
+ * @author Jean-Marc SINQUIN
  */
 
 public class FenetrePpale extends JFrame {
 
-	/**
-	 * TODO Trouver à quoi ça sert ce serialVersionUID signalé par le compilateur...
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -153,7 +154,6 @@ public class FenetrePpale extends JFrame {
 		srlLstC.setBounds(10, 40, 530, 290);
 		
 		// Comportement et apparence des composants
-		// TODO Mettre en rouge les comptes en négatif
 		
 	}
 	
@@ -267,7 +267,7 @@ public class FenetrePpale extends JFrame {
         
         setJpanelVisible(jpLstC);															// Affichage du panel jpLstC et masquage des autres panels (sauf panel menu)
         
-        Collections.sort(cptListeComptes, new TrierComptes());
+        Collections.sort(cptListeComptes, new TrierComptes());								// Trie croissant des soldes des comptes
 		jtbLstC.setModel(new ModeleListeComptes( cptListeComptes ));						// Ecrit les données dans la JTable suivant le modèle donné.
 		jtbLstC.getColumnModel().getColumn(1).setCellRenderer(new RenduCellTabComptes());	// Formatage des n° de comptes
 		jtbLstC.getColumnModel().getColumn(2).setCellRenderer(new RenduCellTabComptes());	// Formatage des soldes
@@ -278,11 +278,21 @@ public class FenetrePpale extends JFrame {
 	 * Affichage de la liste des clients du gestionnaire (Choix 2 du menu)
 	 * @param liste La liste des clients à afficher 
 	 */
-	public void setListeClients(DefaultListModel<String> liste) {
+	public void setListeClients(TreeSet<Client> lstClients) {
 		
-		setJpanelVisible(jpGest);	// Affichage du panel jpGest et masquage des autres panels (sauf panel menu)
+		// Affichage du panel jpGest et masquage des autres panels (sauf panel menu)
+		setJpanelVisible(jpGest);
 		
-		jlistPF.setModel(liste);	// Mise à jour de la source de la liste
+		// Rajouter les éléments à la listModel en utilisant l'objet Iterator
+		Iterator<Client> itrClie = lstClients.iterator();
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
+		while(itrClie.hasNext()) {
+			Client client = itrClie.next();
+			listModel.addElement(client.getPrenom() + " (id = " + client.getIdClient() + ")");
+		}
+		
+		// Mise à jour de la source de la liste
+		jlistPF.setModel(listModel);
 	}
 	
 	/**

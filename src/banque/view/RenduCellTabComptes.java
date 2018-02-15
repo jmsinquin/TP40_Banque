@@ -28,12 +28,12 @@ public class RenduCellTabComptes extends DefaultTableCellRenderer {
 
 		String colName = table.getColumnName(column);						// Nom de la colone
 
-		// Formatage du n° de compte XXX XXX 
+		// Formatage du n° de compte xxx xxx 
 		if (colName.equals("Numéro")) {
 			df.applyPattern("000,000");
 			setText(df.format(nombre));
 
-		// Formatage du solde XXX XXX,XX €
+		// Formatage du solde xxx xxx,xx €
 		} else if (colName.equals("Solde")) {
 
 			df.applyPattern("###,###.00 €");								// Formatage de l'affichage du solde

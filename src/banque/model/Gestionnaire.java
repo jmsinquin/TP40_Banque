@@ -13,7 +13,7 @@ public class Gestionnaire extends Personne {
 	public Gestionnaire(String prenom) {
 		super(prenom);
 		this.numMat = genererNumMat();
-		this.clients = new TreeSet<Client>();
+		this.clients = new TreeSet<Client>(new TrierPersonne());	// La liste des clients par ordre alphabétique est triée automatiquement
 	}
 
 	/*

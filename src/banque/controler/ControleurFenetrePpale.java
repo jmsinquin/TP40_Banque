@@ -70,7 +70,6 @@ public class ControleurFenetrePpale {
 		// On récupère la valeur du choix
 		int choix = fen.getChoix();
 		if ( choix != -1) {
-			// TODO : Implémenter les options en fonction du choix
 			System.out.println("Choix : " + choix);
 			switch (choix) {
 				case 0 : quitter();
@@ -95,31 +94,13 @@ public class ControleurFenetrePpale {
 	}
 	
 	private void listerComptes() {
-		// TODO listerComptes()
 		System.out.println("listerComptes");
 		fen.setListeComptes( gest.getListeComptes() );
-		
 	}
 	
 	private void listerClients() {
-		// TODO listerClients()
 		System.out.println("listerClients");
-		
-		TreeSet<Client> lstClients = gest.getClients();				// Récupération de la liste des clients du gestionnaire
-		TrierPersonne tr = new TrierPersonne();
-		TreeSet<Client> lstClientsTries = new TreeSet<Client>(tr);	// Treeset stocke les données en les triant
-		lstClientsTries.addAll(lstClients);							// Ajout de tous les clients de la collection clients en les triant
-	
-		// Utiliser l'objet Iterator
-		Iterator<Client> itrClie = lstClientsTries.iterator();
-		DefaultListModel<String> srcList = new DefaultListModel<String>();
-		while(itrClie.hasNext()) {
-			Client client = itrClie.next();
-			srcList.addElement(client.getPrenom() + " (id = " + client.getIdClient() + ")");
-		}
-		
-		//srcList.
-		fen.setListeClients(srcList);
+		fen.setListeClients( gest.getClients() );
 	}
 	
 	private void tresorerieClient() {

@@ -2,6 +2,11 @@ package banque.model;
 
 import java.util.Comparator;
 
+/**
+ * Trie les personnes en ordre alphabétique.<br>
+ * @author Jean-Marc SINQUIN
+ *
+ */
 public class TrierPersonne implements Comparator<Personne> {
 
 	@Override
