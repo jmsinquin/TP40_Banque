@@ -1,0 +1,78 @@
+Audit projet branch master du 31 janvier 2018
+
+
+Travail conséquent bien organisé et présenté.
+Projet solide à faire évoluer étapes par étapes.
+Typiquement un projet de cette nature donne envie d'intégrer l'équipe de devellopeurs à l'origine du projet.
+Good job.keep going !!
+
+
+00) usage IDE
+        Bonne appropriation de l'invironnement de dev
+
+10) Modelisation
+        TODO make-modelisation au moins les méthodes utilisées et celles sous jacentes au menus
+
+20) Architecture
+        Respect MVC du point de vue package.
+        Respecter MVC suppose que le controller capte les events de l'IHM
+        PUIS invoque les méthodes du model pour mettre à jour les données à présenter les données au user.
+        Ce n'est donc pas le controller qui possède le code concernant le model.
+            TODO migrer-méthode-vers-model
+        Le controller dmandera à la vue de se mettre à jour une fois que les méthodes du model auront terminées leur éxécution.
+
+
+10) Run
+        FIXME DONE_compilation-fen_this-FenPpale
+
+
+20) Implementation
+        ?? pourquoi une méthode main dans la classe FenetrePpale
+        usage structure de données impose de s'assurer que cette structure de données n'est pas vide. if(!xxxdatas.isEmpty())
+
+
+30) IHM
+        Design
+            Fenetre non redimensionable
+            Aucun layout spécifié  ==> Borderlayout par defaut
+
+        Ergonomie
+            menus est une comboBox cliquable, mais aucune action engendrée ... TODO suggestion_event-on-selectedItem
+            textArea = Bien vu le focus à l'ouverture de l'IHM, ainsi que la séléction du contenu. TODO suggestion_vider-texArea-on-mouseDown
+            Bien vu Gestion keyboard enter
+            Bien vu popup si saisie KO
+
+        Affordance
+
+
+        Aide user
+            Bien vu pour les tooltips
+
+40) Fonctionnalites
+        Saisie des menus
+            0 - Fin session
+
+            1 _ Lister Comptes
+                TODO Afficher les comptes
+
+            2 _ Lister clients
+                    TODO letterFirst-n-lowcase
+                    TODO suggestion_align-Id
+                    TODO event-on-selectedItem
+
+            3 - Trésorerie client
+                    TODO
+                    TODO
+
+            4 - Portefeuille
+                    TODO
+                    TODO
+                    TODO
+
+            5 - Sauvegarde
+                    TODO
+                    TODO
+                    TODO
+
+50) JAVADOC
+        Bien vu pésence commentaires, peut etre un peu trop volumineux

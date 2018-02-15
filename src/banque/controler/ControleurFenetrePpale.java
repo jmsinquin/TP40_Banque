@@ -3,14 +3,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
 
-import banque.model.*;
-import banque.view.*;
+import banque.model.Client;
+import banque.model.Gestionnaire;
+import banque.model.TrierPersonne;
+import banque.view.FenetrePpale;
 
 
 /**
@@ -90,12 +91,13 @@ public class ControleurFenetrePpale {
 	
 	private void quitter() {
 		System.out.println("Sortie de l'appli");
-		System.exit(0);							// 0 = Status code, fin normale du programme.
+		System.exit(0);								// 0 = Status code, fin normale du programme.
 	}
 	
 	private void listerComptes() {
 		// TODO listerComptes()
 		System.out.println("listerComptes");
+		fen.setListeComptes( gest.getListeComptes() );
 		
 	}
 	

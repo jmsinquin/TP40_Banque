@@ -1,11 +1,12 @@
 package banque.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -17,8 +18,12 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import banque.DemoAppli;
+import banque.model.Compte;
 
 /**
  * @author Jean-Marc
@@ -37,6 +42,7 @@ public class FenetrePpale extends JFrame {
 	private static final String BTN_VALIDATION = "Valider";
 	private static final String BTN_CLIENT = "Sélectionner";
 	private static final String LBL_CLIENT = "Clients :";
+	private static final String LBL_LST_COMPTES = "Liste des comptes :";
 	private static final String LBL_CUMUL = "Cumul portefeuille gestionnaire";
 	private static final String LBL_MENU_ACTION = "Menu actions :";
 	private static final String LBL_PF_GEST = "Portefeuille gestionnaire :";
@@ -49,8 +55,8 @@ public class FenetrePpale extends JFrame {
 	private static final String MSG_GETCHOIX_01 = "Saisir un entier entre 0 et 5";
 	
 	// Constantes numériques
-	private static final int LA_FEN = 800;
-	private static final int HT_FEN = 400;
+	private static final int LA_FEN = 800;			// Largeur fenêtre principale
+	private static final int HT_FEN = 400;			// Hauteur fenêtre principale
 	
 	// Variables widgets
 	private JLabel lblAction = new JLabel(LBL_MENU_ACTION);
@@ -62,14 +68,18 @@ public class FenetrePpale extends JFrame {
 	private JTextField txtPFCumul = new JTextField(10);
 	private JComboBox<String> cmbClients = new JComboBox<String>();
 	private JLabel lblClient = new JLabel(LBL_CLIENT);
-	private JButton btnClient = new JButton(BTN_CLIENT);	
+	private JButton btnClient = new JButton(BTN_CLIENT);
+	private JLabel lblLstC = new JLabel(LBL_LST_COMPTES);
+	private JTable jtbLstC = new JTable();
+	private JScrollPane srlLstC = new JScrollPane(jtbLstC);
 	
 	// Elements graphiques Zones
 	private Container panContent = this.getContentPane(); 				// Fenêtre principale
-	private JPanel jpPpal = new JPanel();								// Panel principal à insérer dans le ContentPanel (Layout horizontal)
-	private JPanel jpMenu = new JPanel();								// Panel gérant le menu (Layout vertical)
-	private JPanel jpClie = new JPanel();								// Panel gérant les clients (Layout vertical)
-	private JPanel jpGest = new JPanel();								// Panel gérant les actions gestionnaire (Layout vertical)
+	private JPanel jpPpal = new JPanel();								// Panel principal à insérer dans le ContentPanel
+	private JPanel jpMenu = new JPanel();								// Panel gérant le menu 
+	private JPanel jpClie = new JPanel();								// Panel gérant les clients 
+	private JPanel jpGest = new JPanel();								// Panel gérant les actions gestionnaire 
+	private JPanel jpLstC = new JPanel();								// Panel gérant la liste des comptes
 	
 	// Liste scrollable
 	//private DefaultListModel<String> listCpts = new DefaultListModel<String>(); 	// Contenu liste porte-feuille
@@ -107,24 +117,45 @@ public class FenetrePpale extends JFrame {
 	private void construireContenu() {
 		// Squelette de la fenêtre
 		jpPpal.setLayout( null );			// Panel principal contenu dans le contentPane sans layout (positions absolues)
-		panContent.add(jpPpal); 			// Ajout du panel principal dans le contentPane
+		panContent.add( jpPpal ); 			// Ajout du panel principal dans le contentPane
 		
 		// Ajout des différents sous-panels contenus dans le panel principal
 		construirePanMenu();				// Panel gauche : menu
-		construirePanClients();				// Panel milieu : clients
-		construirePanGest();				// Panel droit : gestionnaire
+		construirePanClients();				// Panel clients
+		construirePanGest();				// Panel gestionnaire
+		construirePanListeComptes();		// Panel liste des comptes
 		
 		// Positions et dimensions des sous-panels dans le panel principal
 		jpMenu.setBounds(  10, 10, 195, HT_FEN-50);
 		jpClie.setBounds( 215, 10, 200, HT_FEN-50);
 		jpGest.setBounds( 425, 10, 350, HT_FEN-50);
+		jpLstC.setBounds( 215, 10, 560, HT_FEN-50);
 		
 		// Comportement et apparence des composants
 		jpMenu.setBorder(BorderFactory.createLineBorder(Color.black));
 		jpClie.setBorder(BorderFactory.createLineBorder(Color.black));
-		jpGest.setBorder(BorderFactory.createLineBorder(Color.black));		
+		jpGest.setBorder(BorderFactory.createLineBorder(Color.black));	
+		jpLstC.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
+
+	private void construirePanListeComptes() {
+		// Squelette du JPanel :
+		jpLstC.setLayout( null );							// Aucun layout : positions absolues
+		jpPpal.add(jpLstC);									// Ajout du sous-panel au panel principal
 		
+		// Ajout des widgets dans le JPanel Vertical
+		jpLstC.add(lblLstC);								// Ajoute le label
+		srlLstC = new JScrollPane(jtbLstC);					// Ajoute une JTable dans un scrollpanel
+		jpLstC.add(srlLstC);								// Ajoute le scrollPanel dans le sous-panel
+
+		// Position des widgets (car layout type absolu) :
+		lblLstC.setBounds(10, 10, 150,  15);
+		srlLstC.setBounds(10, 40, 530, 290);
+		
+		// Comportement et apparence des composants
+		// TODO Mettre en rouge les comptes en négatif
+	}
+	
 	/*
 	 * JPanel de gauche : menu et actions
 	 */
@@ -140,10 +171,10 @@ public class FenetrePpale extends JFrame {
 		jpMenu.add(btnValider);								// Ajoute le bouton	
 		
 		// Position des widgets (car layout type absolu) :
-		lblAction.setBounds(  10,  10,  150,  10);
-		txtMenu.setBounds(    10,  40 , 170, 105);
-		txtChoix.setBounds(   10, 155 , 170,  25);
-		btnValider.setBounds( 55, 190 , 125,  25);
+		lblAction.setBounds(  10,  10, 150,  15);
+		txtMenu.setBounds(    10,  40, 170, 105);
+		txtChoix.setBounds(   10, 155, 170,  25);
+		btnValider.setBounds( 55, 190, 125,  25);
 						
 		// Comportement et apparence des composants
 		txtMenu.setEditable(false);										// Verrouille le contenu du menu
@@ -165,7 +196,7 @@ public class FenetrePpale extends JFrame {
 		jpClie.add(btnClient);								// Ajout bouton
 			
 		// Position des widget (car layout type absolu) :
-		lblClient.setBounds( 10, 10,  150, 10);
+		lblClient.setBounds( 10, 10,  150, 15);
 		cmbClients.setBounds(10, 40 , 150, 25);
 		btnClient.setBounds( 35, 75 , 125, 25);
 		
@@ -177,32 +208,25 @@ public class FenetrePpale extends JFrame {
 	 */
 	private void construirePanGest() {
 		// Squelette du JPanel :
-		jpGest.setLayout( null );							// Aucun layout : positions absolues
-		jpPpal.add(jpGest);									// Ajout du sous-panel au panel principal			
+		jpGest.setLayout( null );								// Aucun layout : positions absolues
+		jpPpal.add(jpGest);										// Ajout du sous-panel au panel principal			
 				
 		// Ajout des widgets dans le JPanel
-		jpGest.add(lblPF);												// Ajoute le label
-		jpGest.add(srlPF);												// Ajoute le scrollPane
-		jpGest.add(lblPFCumul);											// Ajoute le label
-		jpGest.add(txtPFCumul);											// Ajoute le textbox
-
+		jpGest.add(lblPF);										// Ajoute le label
+		jpGest.add(srlPF);										// Ajoute le scrollPane
+		jpGest.add(lblPFCumul);									// Ajoute le label
+		jpGest.add(txtPFCumul);									// Ajoute le textbox
+		
 		// Position des widgets
-		lblPF.setBounds(       10,  10, 150,  10);
+		lblPF.setBounds(       10,  10, 150,  15);
 		srlPF.setBounds(       10,  40, 330, 105);
 		lblPFCumul.setBounds(  10, 155, 240,  25);
 		txtPFCumul.setBounds( 260, 155,  80,  25);
 		
 		// Comportement et apparence des widgets
-		txtPFCumul.setForeground(Color.BLUE);							// Couleur en bleu du résultat cumul
-		txtPFCumul.setFont( new Font("Arial", Font.BOLD,16) );			// Mise en gras des résultats Ht.16
-		lblPFCumul.setFont( new Font("Arial", Font.BOLD,16) );			// Mise en gras du label Ht.16
-		
-		// Ajout de données dans la DefaultListModel "listCpts"
-//		listCpts.addElement("toto");
-//		listCpts.addElement("tata");
-//		listCpts.addElement("titi");
-//		listCpts.addElement("toto");
-		
+		txtPFCumul.setForeground(Color.BLUE);					// Couleur en bleu du résultat cumul
+		txtPFCumul.setFont( new Font("Arial", Font.BOLD,16) );	// Mise en gras des résultats Ht.16
+		lblPFCumul.setFont( new Font("Arial", Font.BOLD,16) );	// Mise en gras du label Ht.16
 	}
 	
 	/*
@@ -231,16 +255,47 @@ public class FenetrePpale extends JFrame {
 		txtChoix.selectAll();		// Donne le focus à la textChoix
 		jpClie.setVisible(false);	// Panneau client invisible par défaut
 		jpGest.setVisible(false);	// Panneau gestionnaire invisible par défaut
+		jpLstC.setVisible(false);	// Panneau liste compte invisible par défaut
+	}
+	
+
+	/** Affichage de la liste des comptes du gestionnaire (Choix 1 du menu)
+	 * @param cptListeComptes La liste des comptes à afficher
+	 */
+	public void setListeComptes(ArrayList<Compte> cptListeComptes) {
+        
+        setJpanelVisible(jpLstC);										// Affichage du panel jpLstC et masquage des autres panels (sauf panel menu)
+        
+		jtbLstC.setModel(new ModeleListeComptes( cptListeComptes ));	// Ecrit les données dans la JTable suivant le modèle donné.
+        srlLstC.setViewportView(jtbLstC);								// Rajoute la jTable dans la zone scrollage
 	}
 	
 	/**
-	 * @param liste La liste à afficher dans la zone scrollable gestionnaire
+	 * Affichage de la liste des clients du gestionnaire (Choix 2 du menu)
+	 * @param liste La liste des clients à afficher 
 	 */
 	public void setListeClients(DefaultListModel<String> liste) {
-		setPanClieVisible(false);	// Rend invisible le panneau Client
-		setPanGestVisible(true);	// Rend visible le panneau Gestionnaire
-		jlistPF.setModel(liste);		// Mise à jour de la source de la liste
+		
+		setJpanelVisible(jpGest);	// Affichage du panel jpGest et masquage des autres panels (sauf panel menu)
+		
+		jlistPF.setModel(liste);	// Mise à jour de la source de la liste
 	}
+	
+	/**
+	 * Affiche le JPanel Menu et le JPanel donné en paramètre
+	 * @param jp Le JPanel à afficher
+	 */
+	private void setJpanelVisible(JPanel jp) {
+		Component[] tabComp = jpPpal.getComponents();
+		
+		for (Component c : tabComp) {
+			if (c.getClass().getName().equals("javax.swing.JPanel")) {
+				if (c == jp || c == jpMenu) c.setVisible(true);
+				else c.setVisible(false);
+			}
+		}
+	}
+
 	
 	/**
 	 * @return Le choix de l'utilisateur. Retourne -1 si erreur de choix
@@ -285,21 +340,8 @@ public class FenetrePpale extends JFrame {
 		txtChoix.addKeyListener(txtChoixKeyListener);
 	}
 	
-	/**
-	 * @param b Rend visible ou non le panneau Gestionnaire
-	 */
-	public void setPanGestVisible(boolean b) {
-		jpGest.setVisible(b);
-	}
-	
-	/**
-	 * @param b Rend visible ou non le panneau Gestionnaire
-	 */
-	public void setPanClieVisible(boolean b) {
-		jpClie.setVisible(b);
-	}
-	
 	public static void main(String[] args) {
-		new FenetrePpale();
+		//new FenetrePpale();
+		DemoAppli.main(null);
 	}
 }

@@ -248,4 +248,9 @@ public class Client extends Personne implements Comparable<Client> {
 	}
 	
 	
+	public ArrayList<Compte> getListeComptes() {
+		return comptes;
+	}
+	
+	
 }

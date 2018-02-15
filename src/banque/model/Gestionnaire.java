@@ -1,5 +1,6 @@
 package banque.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -109,6 +110,29 @@ public class Gestionnaire extends Personne {
 			 client.listerCompte();
 			 //System.out.println(SEP);
 		 }
+	}
+	
+	/**
+	 * @return la liste de tous les comptes clients gérés par le gestionnaire. Null si le gestionnaire n'a pas de clients
+	 */
+	public ArrayList<Compte> getListeComptes() {
+		if ( clients.size() != 0 ) {									// Si le gestionnaire a des clients
+			ArrayList<Compte> cptListeGest = new ArrayList<Compte>();	// Liste des comptes gérés par le gestionnaire
+			ArrayList<Compte> cptListeClie = new ArrayList<Compte>();	// Liste des comptes d'un client
+			Iterator<Client> itrClie = clients.iterator();				// Itérateur pour lister les clients du gestionnaire
+			while(itrClie.hasNext()) {									// Pour chaque client du gestionnaire
+				Client client = itrClie.next();
+				if ( client.getnbCompte() != 0 ) {						// Si le client a des comptes
+					cptListeClie = client.getListeComptes();			// Récupérer la liste de ses comptes
+					Iterator<Compte> itrCpt = cptListeClie.iterator();	// Itérateur pour lister les comptes du client
+					while(itrCpt.hasNext()) {							// pour chaque compte du client
+						cptListeGest.add(itrCpt.next()); 				// Ajouter le compte à la liste des comptes du gestionnaire
+					}
+				}
+			}
+			return cptListeGest;										// Retourne la liste de tous les comptes du gestionnaire
+		}
+		return null;													// Retourne null si le gestionnaire n'a pas de client
 	}
 		
 	/**
