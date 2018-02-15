@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -24,6 +25,7 @@ import javax.swing.JTextField;
 
 import banque.DemoAppli;
 import banque.model.Compte;
+import banque.model.TrierComptes;
 
 /**
  * @author Jean-Marc
@@ -81,11 +83,9 @@ public class FenetrePpale extends JFrame {
 	private JPanel jpGest = new JPanel();								// Panel gérant les actions gestionnaire 
 	private JPanel jpLstC = new JPanel();								// Panel gérant la liste des comptes
 	
-	// Liste scrollable
-	//private DefaultListModel<String> listCpts = new DefaultListModel<String>(); 	// Contenu liste porte-feuille
-	//JList<String> jlistPF = new JList<String>(listCpts);							// Liste avec source "listCpts"
+
 	JList<String> jlistPF = new JList<String>();
-	private JScrollPane srlPF = new JScrollPane(jlistPF);							// Scroll de la liste
+	private JScrollPane srlPF = new JScrollPane(jlistPF);				// Scroll de la liste
 	
 	
 	/*
@@ -267,6 +267,7 @@ public class FenetrePpale extends JFrame {
         
         setJpanelVisible(jpLstC);															// Affichage du panel jpLstC et masquage des autres panels (sauf panel menu)
         
+        Collections.sort(cptListeComptes, new TrierComptes());
 		jtbLstC.setModel(new ModeleListeComptes( cptListeComptes ));						// Ecrit les données dans la JTable suivant le modèle donné.
 		jtbLstC.getColumnModel().getColumn(1).setCellRenderer(new RenduCellTabComptes());	// Formatage des n° de comptes
 		jtbLstC.getColumnModel().getColumn(2).setCellRenderer(new RenduCellTabComptes());	// Formatage des soldes

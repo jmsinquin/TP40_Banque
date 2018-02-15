@@ -107,7 +107,7 @@ public class ControleurFenetrePpale {
 		
 		TreeSet<Client> lstClients = gest.getClients();				// Récupération de la liste des clients du gestionnaire
 		TrierPersonne tr = new TrierPersonne();
-		TreeSet<Client> lstClientsTries = new TreeSet<Client>(tr);	// 
+		TreeSet<Client> lstClientsTries = new TreeSet<Client>(tr);	// Treeset stocke les données en les triant
 		lstClientsTries.addAll(lstClients);							// Ajout de tous les clients de la collection clients en les triant
 	
 		// Utiliser l'objet Iterator

@@ -40,7 +40,6 @@ public class RenduCellTabComptes extends DefaultTableCellRenderer {
 			setText(df.format(nombre));										// Renvoi du texte formaté pour affichage
 
 			if (nombre < 0) {												// Affichage du texte en rouge si solde négatif
-				System.out.println("tot");
 				setForeground(Color.RED);
 				setFont(getFont().deriveFont(Font.BOLD));
 			} else {
