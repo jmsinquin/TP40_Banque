@@ -154,6 +154,7 @@ public class FenetrePpale extends JFrame {
 		
 		// Comportement et apparence des composants
 		// TODO Mettre en rouge les comptes en négatif
+		
 	}
 	
 	/*
@@ -264,10 +265,12 @@ public class FenetrePpale extends JFrame {
 	 */
 	public void setListeComptes(ArrayList<Compte> cptListeComptes) {
         
-        setJpanelVisible(jpLstC);										// Affichage du panel jpLstC et masquage des autres panels (sauf panel menu)
+        setJpanelVisible(jpLstC);															// Affichage du panel jpLstC et masquage des autres panels (sauf panel menu)
         
-		jtbLstC.setModel(new ModeleListeComptes( cptListeComptes ));	// Ecrit les données dans la JTable suivant le modèle donné.
-        srlLstC.setViewportView(jtbLstC);								// Rajoute la jTable dans la zone scrollage
+		jtbLstC.setModel(new ModeleListeComptes( cptListeComptes ));						// Ecrit les données dans la JTable suivant le modèle donné.
+		jtbLstC.getColumnModel().getColumn(1).setCellRenderer(new RenduCellTabComptes());	// Formatage des n° de comptes
+		jtbLstC.getColumnModel().getColumn(2).setCellRenderer(new RenduCellTabComptes());	// Formatage des soldes
+        srlLstC.setViewportView(jtbLstC);													// Rajoute la jTable dans la zone scrollage
 	}
 	
 	/**

@@ -14,7 +14,7 @@ public class ModeleListeComptes extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private final Compte[] comptes;
-	private final String[] entetes = {"Numéro", "Type", "Solde"};
+	private final String[] entetes = {"Type", "Numéro", "Solde"};
 	
 	/**
 	 * Constructeur
@@ -44,9 +44,9 @@ public class ModeleListeComptes extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		switch(columnIndex){
 			case 0 :
-				return comptes[rowIndex].getNumCompte();
-			case 1 :
 				return comptes[rowIndex].getType();
+			case 1 :
+				return comptes[rowIndex].getNumCompte();
 			case 2 :
 				return comptes[rowIndex].getSolde();
 			default :
