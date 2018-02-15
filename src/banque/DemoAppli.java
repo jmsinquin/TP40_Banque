@@ -17,9 +17,7 @@ public class DemoAppli {
 	static Gestionnaire banquier;
 	
 	public static void main(String[] args) {
-		
 //		initAppliTest();
-		
 		initAppli();
 		FenetrePpale laVue = new FenetrePpale();
 		new ControleurFenetrePpale(laVue, banquier); 

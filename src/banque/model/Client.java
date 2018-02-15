@@ -1,7 +1,10 @@
 package banque.model;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 
 /**
@@ -247,6 +250,18 @@ public class Client extends Personne implements Comparable<Client> {
 		return total;
 	}
 	
+	
+	/**
+	 * Donne le patrimoine formaté monaitaire francais
+	 * @return Le patrimoine du client formaté
+	 */
+	public String getPatrimoineToString() {
+		float total = getPatrimoine();
+		NumberFormat nf = NumberFormat.getNumberInstance(Locale.FRANCE);	// Format du nombre suivant standard FR
+		DecimalFormat df = (DecimalFormat)nf;
+		df.applyPattern("###,###.00 €");								// Formatage de l'affichage du solde
+		return df.format(total);	
+	}
 	
 	public ArrayList<Compte> getListeComptes() {
 		return comptes;

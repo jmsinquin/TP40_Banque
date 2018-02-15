@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.TableModel;
 
 import banque.DemoAppli;
 import banque.model.Client;
@@ -44,10 +45,12 @@ public class FenetrePpale extends JFrame {
 	private static final String BTN_VALIDATION = "Valider";
 	private static final String BTN_CLIENT = "Sélectionner";
 	private static final String LBL_CLIENT = "Clients :";
+	private static final String LBL_CLIENT_COMPTES = "Liste des comptes de ";
 	private static final String LBL_LST_COMPTES = "Liste des comptes :";
 	private static final String LBL_CUMUL = "Cumul portefeuille gestionnaire";
 	private static final String LBL_MENU_ACTION = "Menu actions :";
-	private static final String LBL_PF_GEST = "Portefeuille gestionnaire :";
+	private static final String LBL_PF_GEST = "Liste clients du gestionnaire :";
+	private static final String LBL_PAT_CLIENT = "Patrimoine du client :";
 	private static final String MENU_0 = "0- Fin session";
 	private static final String MENU_1 = "1- Liste des comptes";
 	private static final String MENU_2 = "2- Liste des clients";
@@ -67,13 +70,21 @@ public class FenetrePpale extends JFrame {
 	private JButton btnValider = new JButton(BTN_VALIDATION);
 	private JLabel lblPF = new JLabel(LBL_PF_GEST);
 	private JLabel lblPFCumul = new JLabel(LBL_CUMUL);
-	private JTextField txtPFCumul = new JTextField(10);
+	private JLabel lblCliComptes = new JLabel(LBL_CLIENT_COMPTES);		// Label liste des comptes du client sélectionné
+//	private JTextField txtPFCumul = new JTextField(10);
 	private JComboBox<String> cmbClients = new JComboBox<String>();
 	private JLabel lblClient = new JLabel(LBL_CLIENT);
 	private JButton btnClient = new JButton(BTN_CLIENT);
 	private JLabel lblLstC = new JLabel(LBL_LST_COMPTES);
-	private JTable jtbLstC = new JTable();
-	private JScrollPane srlLstC = new JScrollPane(jtbLstC);
+	private JTable jtbLstC = new JTable();								// Table liste des comptes
+	private JScrollPane srlLstC = new JScrollPane(jtbLstC);				// Scroll pour la table liste des comptes
+	
+	private JTable jtbClient = new JTable();							// Table liste des clients
+	
+	private JTable jtbCpCl = new JTable();								// Table liste des comptes d'un client
+	private JScrollPane srlCpCl = new JScrollPane(jtbCpCl);				// Scroll pour la table liste des comptes d'un client
+	private JLabel lblPatClient = new JLabel(LBL_PAT_CLIENT);			// Label patrimoine client
+	private JTextField txtPatClient = new JTextField();					// TextBox patrimoine client
 	
 	// Elements graphiques Zones
 	private Container panContent = this.getContentPane(); 				// Fenêtre principale
@@ -82,9 +93,9 @@ public class FenetrePpale extends JFrame {
 	private JPanel jpClie = new JPanel();								// Panel gérant les clients 
 	private JPanel jpGest = new JPanel();								// Panel gérant les actions gestionnaire 
 	private JPanel jpLstC = new JPanel();								// Panel gérant la liste des comptes
-	
+	private JPanel jpCpCl = new JPanel();								// Panel gérant la liste des comptes d'un client
 
-	JList<String> jlistPF = new JList<String>();
+	private JList<String> jlistPF = new JList<String>();
 	private JScrollPane srlPF = new JScrollPane(jlistPF);				// Scroll de la liste
 	
 	
@@ -138,6 +149,9 @@ public class FenetrePpale extends JFrame {
 		jpLstC.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
+	/**
+	 * JPanel affichant une JTable contenant la liste des comptes
+	 */
 	private void construirePanListeComptes() {
 		// Squelette du JPanel :
 		jpLstC.setLayout( null );							// Aucun layout : positions absolues
@@ -183,7 +197,7 @@ public class FenetrePpale extends JFrame {
 	}
 	
 	/*
-	 * JPanel milieu : actions clients
+	 * JPanel milieu : Trésorerie des clients
 	 */
 	private void construirePanClients() {
 		// Squelette du JPanel :
@@ -201,32 +215,55 @@ public class FenetrePpale extends JFrame {
 		btnClient.setBounds( 35, 75 , 125, 25);
 		
 		// Apparence des composants :
+		
+		
 	}
 	
 	/*
-	 * JPanel de droite : actions gestionnaire
+	 * JPanel de droite : Affiche la liste des noms et id des clients d'un gestionnaire
 	 */
 	private void construirePanGest() {
 		// Squelette du JPanel :
 		jpGest.setLayout( null );								// Aucun layout : positions absolues
-		jpPpal.add(jpGest);										// Ajout du sous-panel au panel principal			
+		jpPpal.add(jpGest);										// Ajout du sous-panel au panel principal	
+		construirePanComptesClient();							// Ajout du sous-panel listeComptesClient à ce sous panel
 				
 		// Ajout des widgets dans le JPanel
 		jpGest.add(lblPF);										// Ajoute le label
 		jpGest.add(srlPF);										// Ajoute le scrollPane
-		jpGest.add(lblPFCumul);									// Ajoute le label
-		jpGest.add(txtPFCumul);									// Ajoute le textbox
+		
 		
 		// Position des widgets
-		lblPF.setBounds(       10,  10, 150,  15);
-		srlPF.setBounds(       10,  40, 330, 105);
-		lblPFCumul.setBounds(  10, 155, 240,  25);
-		txtPFCumul.setBounds( 260, 155,  80,  25);
+		lblPF.setBounds(        10,  10, 330,  15);				// Label
+		srlPF.setBounds(        10,  40, 330, 100);				// ScrollList clients
+		jpCpCl.setBounds(       10, 150, 330, 190);       		// Sous panel ListeDesComptesDuClient
 		
 		// Comportement et apparence des widgets
-		txtPFCumul.setForeground(Color.BLUE);					// Couleur en bleu du résultat cumul
-		txtPFCumul.setFont( new Font("Arial", Font.BOLD,16) );	// Mise en gras des résultats Ht.16
-		lblPFCumul.setFont( new Font("Arial", Font.BOLD,16) );	// Mise en gras du label Ht.16
+		jpCpCl.setVisible(false);								// Non visible par défaut
+		jpCpCl.setBorder(BorderFactory.createLineBorder(Color.black));
+
+	}
+	
+	private void construirePanComptesClient() {
+		// Squelette du JPanel :
+		jpCpCl.setLayout( null );								// Aucun layout : positions absolues
+		jpGest.add(jpCpCl);										// Ajout du sous-panel au panel Clients d'un gestionnaire
+		
+		// Ajout des widgets dans le JPanel
+		jpCpCl.add(lblCliComptes);								// Ajoute label 'Voir comptes'jpGest.add(jtbCpCl);									// Ajoute bouton 'Voir comptes'
+		srlCpCl = new JScrollPane(jtbCpCl);						// Ajoute une JTable dans un scrollpanel
+		jpCpCl.add(srlCpCl);									// Ajoute le scrollPanel dans le sous-panel
+		jpCpCl.add(lblPatClient);								// Label patrimone du client
+		jpCpCl.add(txtPatClient);								// textbox patrimoine du client
+		
+		// Position des widgets
+		lblCliComptes.setBounds(10,  10, 200,  15);				// Label "Liste des compte de 'client'"
+		srlCpCl.setBounds(		10,  40, 300, 100);				// ScrollList
+		lblPatClient.setBounds(	50, 160, 120,  15);
+		txtPatClient.setBounds(185, 155, 125,  25);
+		
+		// Comportement et apparence des widgets
+		txtPatClient.setHorizontalAlignment(JTextField.RIGHT );
 	}
 	
 	/*
@@ -258,7 +295,37 @@ public class FenetrePpale extends JFrame {
 		jpLstC.setVisible(false);	// Panneau liste compte invisible par défaut
 	}
 	
-
+	
+	/**
+	 * Affiche les comptes d'un client sélectionné dans la liste
+	 * @param client L'objet client dont il faut afficher les comptes
+	 */
+	public void setListeComptesClient(Client client) {
+		jpCpCl.setVisible(true);																// Rend le panel visible
+		
+		ArrayList<Compte> comptes = client.getListeComptes();									// Récupérer la liste des comptes du client
+		
+		if (comptes.size() != 0) {																// Si le client à des comptes
+			lblCliComptes.setText("Liste des comptes de " + client.getPrenom() + " :");
+			Collections.sort(comptes, new TrierComptes());										// Trier les comptes
+			jtbCpCl.setModel(new ModeleListeComptes( comptes ));
+			jtbCpCl.getColumnModel().getColumn(1).setCellRenderer(new RenduCellTabComptes());	// Formatage des n° de comptes
+			jtbCpCl.getColumnModel().getColumn(2).setCellRenderer(new RenduCellTabComptes());	// Formatage des soldes
+			srlCpCl.setViewportView(jtbCpCl);													// Mise à jour de la zone scrollable
+			srlCpCl.setVisible(true);															// Rend visible la zone scrollable
+			lblPatClient.setVisible(true);
+			txtPatClient.setVisible(true);
+			txtPatClient.setText(client.getPatrimoineToString() + "");
+		} 
+		else {																					// Le client n'a pas de compte
+			lblCliComptes.setText("Le client " + client.getPrenom() + " n'a aucun compte");
+			srlCpCl.setVisible(false);
+			lblPatClient.setVisible(false);
+			txtPatClient.setVisible(false);
+		}
+	}
+	
+	
 	/** Affichage de la liste des comptes du gestionnaire (Choix 1 du menu)
 	 * @param cptListeComptes La liste des comptes à afficher
 	 */
@@ -281,17 +348,10 @@ public class FenetrePpale extends JFrame {
 		
 		// Affichage du panel jpGest et masquage des autres panels (sauf panel menu)
 		setJpanelVisible(jpGest);
+				
+		jtbClient.setModel(new ModeleListeClients( lstClients ));	// Mise à jour de la source de la table
+		srlPF.setViewportView(jtbClient);							// Mise à jour scrollList
 		
-		// Rajouter les éléments à la listModel en utilisant l'objet Iterator
-		Iterator<Client> itrClie = lstClients.iterator();
-		DefaultListModel<String> listModel = new DefaultListModel<String>();
-		while(itrClie.hasNext()) {
-			Client client = itrClie.next();
-			listModel.addElement(client.getPrenom() + " (id = " + client.getIdClient() + ")");
-		}
-		
-		// Mise à jour de la source de la liste
-		jlistPF.setModel(listModel);
 	}
 	
 	/**
@@ -308,7 +368,6 @@ public class FenetrePpale extends JFrame {
 			}
 		}
 	}
-
 	
 	/**
 	 * @return Le choix de l'utilisateur. Retourne -1 si erreur de choix
@@ -337,6 +396,16 @@ public class FenetrePpale extends JFrame {
 		return rep;
 	}
 	
+	
+	/**
+	 * La liste des clients (Choix No2 du menu) doit pouvoir être écoutée
+	 * On retourne cette liste pour que le controleur puisse ensuite le traiter
+	 * @return l'objet jlistPF (liste des clients avec leur id)
+	 */
+	public JTable getWidgetListeClient() {
+		return jtbClient;
+	}
+	
 	/**
 	 * Ajoute un listener sur le bouton Valider
 	 * @param listenerBtnValider 
@@ -353,8 +422,8 @@ public class FenetrePpale extends JFrame {
 		txtChoix.addKeyListener(txtChoixKeyListener);
 	}
 	
-	public static void main(String[] args) {
-		//new FenetrePpale();
-		DemoAppli.main(null);
-	}
+//	public static void main(String[] args) {
+//		//new FenetrePpale();
+//		DemoAppli.main(null);
+//	}
 }
