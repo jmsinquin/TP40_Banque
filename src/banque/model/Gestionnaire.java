@@ -1,5 +1,7 @@
 package banque.model;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -9,6 +11,7 @@ public class Gestionnaire extends Personne {
 	private String numMat;
 	private TreeSet<Client> clients;
 	private final String SEP = "----------------------------------------------";
+	private static String URL = "./assets/clients.xml";
 	
 	public Gestionnaire(String prenom) {
 		super(prenom);
@@ -173,6 +176,38 @@ public class Gestionnaire extends Personne {
 	}
 	
 	public void sauverClientele() {
-		// TODO Implémenter la sauvegarde des clients : voir API FileIO...
+       File fichier =new File(URL); 
+       Iterator<Client> itr = clients.iterator();
+       
+       try {
+    	   // Creation du fichier
+    	   fichier.createNewFile();
+    	   // creation d'un writer
+    	   FileWriter writer = new FileWriter(fichier);
+
+    	   try {
+    		   writer.write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n");
+    		   writer.write("<!-- Sauvegarde de la clientele du banquier " + this.getPrenom() + " -->\n");
+    		   writer.write("<gestionnaire nom=\"" + this.getPrenom() + "\">\n");
+    		   while(itr.hasNext()) {
+    			   Client client = itr.next();
+    			   String s = "";
+    			   s = "    <client>\n";
+    			   s += "        <nom>" + client.getPrenom() + "</nom>\n";
+    			   s += "        <id>" + client.getIdClient() + "</id>\n";
+    			   s += "        <age>" + client.getAge() + "</age>\n";
+    			   s += "    </client>\n";
+    			   writer.write(s);
+    		   }
+    		   writer.write("</gestionnaire>\n");
+    	   } 
+    	   finally {
+    	   writer.close();  // Fermeture du fichier
+    	   }
+		} 
+       	catch (Exception e) {
+		System.out.println("Erreur dans la création du le fichier");
+		System.out.println(e.getMessage());
+		}
 	}
 }

@@ -12,6 +12,10 @@ import banque.model.Gestionnaire;
 import banque.view.FenetrePpale;
 
 
+/**
+ * @author OtObOx
+ *
+ */
 public class DemoAppli {
 
 	static Gestionnaire banquier;
@@ -35,10 +39,10 @@ public class DemoAppli {
         creerDesComptesPourLesClientsDuBanquier(banquier);
         
 	}
+/*	
 	
-	/*
 	 * Initialise l'application en créant un banquier et des clients
-	 */
+	 
 	private static void initAppliTest() {
 		// Création d'un gestionnaire
         banquier  = new Gestionnaire("Rothchild");
@@ -64,7 +68,8 @@ public class DemoAppli {
         // Affiche le chiffre d'affaire du banquier
         System.out.println(banquier.getCA()); 
 	}
-	
+
+	*/
 	
 /*	
 	 * Test les opérations créditer, débiter et transférer pour un client et un banquier

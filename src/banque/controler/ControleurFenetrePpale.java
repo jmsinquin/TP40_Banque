@@ -3,9 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.TreeSet;
 
-import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -27,8 +25,11 @@ public class ControleurFenetrePpale {
 	private Gestionnaire gest;
 	private JTable jListClients; 
 	
+
 	/**
 	 * Constructeur
+	 * @param laFenetre La fenêtre de l'application
+	 * @param leGestionnaire Le banquier
 	 */
 	public ControleurFenetrePpale(FenetrePpale laFenetre, Gestionnaire leGestionnaire) {
 		fen = laFenetre;
@@ -105,11 +106,11 @@ public class ControleurFenetrePpale {
 					break;
 				case 2 : listerClients();
 					break;
-				case 3 : tresorerieClient();
-					break;
-				case 4 : portefeuilleGestionnaire();
-					break;
-				case 5 : saveClients();
+//				case 3 : tresorerieClient();
+//					break;
+//				case 4 : portefeuilleGestionnaire();
+//					break;
+				case 3 : saveClients();
 					break;
 			}
 		}
@@ -130,7 +131,7 @@ public class ControleurFenetrePpale {
 		fen.setListeClients( gest.getClients() );
 	}
 	
-	private void tresorerieClient() {
+/*	private void tresorerieClient() {
 		// TODO tresorerieClient()
 		System.out.println("tresorerieClient");
 	}
@@ -138,11 +139,11 @@ public class ControleurFenetrePpale {
 	private void portefeuilleGestionnaire() {
 		// TODO portefeuilleGestionnaire()
 		System.out.println("portefeuilleGestionnaire");
-	}
+	}*/
 	
 	private void saveClients() {
-		// TODO saveClients()
 		System.out.println("saveClients");
+		gest.sauverClientele();
 	}
 	
 }

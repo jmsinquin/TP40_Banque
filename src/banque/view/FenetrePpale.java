@@ -3,16 +3,13 @@ package banque.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,9 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.table.TableModel;
 
-import banque.DemoAppli;
 import banque.model.Client;
 import banque.model.Compte;
 import banque.model.TrierComptes;
@@ -47,17 +42,16 @@ public class FenetrePpale extends JFrame {
 	private static final String LBL_CLIENT = "Clients :";
 	private static final String LBL_CLIENT_COMPTES = "Liste des comptes de ";
 	private static final String LBL_LST_COMPTES = "Liste des comptes :";
-	private static final String LBL_CUMUL = "Cumul portefeuille gestionnaire";
 	private static final String LBL_MENU_ACTION = "Menu actions :";
 	private static final String LBL_PF_GEST = "Liste clients du gestionnaire :";
 	private static final String LBL_PAT_CLIENT = "Patrimoine du client :";
 	private static final String MENU_0 = "0- Fin session";
 	private static final String MENU_1 = "1- Liste des comptes";
 	private static final String MENU_2 = "2- Liste des clients";
-	private static final String MENU_3 = "3- Trésorerie d'un client";
-	private static final String MENU_4 = "4- Porte-feuille gestionnaire";
-	private static final String MENU_5 = "5- Sauvegarde clientele";
-	private static final String MSG_GETCHOIX_01 = "Saisir un entier entre 0 et 5";
+//	private static final String MENU_3 = "3- Trésorerie d'un client";
+//	private static final String MENU_4 = "4- Porte-feuille gestionnaire";
+	private static final String MENU_5 = "3- Sauvegarde clientele";
+	private static final String MSG_GETCHOIX_01 = "Saisir un entier entre 0 et 3";
 	
 	// Constantes numériques
 	private static final int LA_FEN = 800;			// Largeur fenêtre principale
@@ -69,9 +63,7 @@ public class FenetrePpale extends JFrame {
 	private JTextField txtChoix = new JTextField(MSG_GETCHOIX_01);
 	private JButton btnValider = new JButton(BTN_VALIDATION);
 	private JLabel lblPF = new JLabel(LBL_PF_GEST);
-	private JLabel lblPFCumul = new JLabel(LBL_CUMUL);
 	private JLabel lblCliComptes = new JLabel(LBL_CLIENT_COMPTES);		// Label liste des comptes du client sélectionné
-//	private JTextField txtPFCumul = new JTextField(10);
 	private JComboBox<String> cmbClients = new JComboBox<String>();
 	private JLabel lblClient = new JLabel(LBL_CLIENT);
 	private JButton btnClient = new JButton(BTN_CLIENT);
@@ -285,8 +277,8 @@ public class FenetrePpale extends JFrame {
 		ajouterMenu(MENU_0);
 		ajouterMenu(MENU_1);
 		ajouterMenu(MENU_2);
-		ajouterMenu(MENU_3);
-		ajouterMenu(MENU_4);
+//		ajouterMenu(MENU_3);
+//		ajouterMenu(MENU_4);
 		ajouterMenu(MENU_5);	
 		
 		txtChoix.selectAll();		// Donne le focus à la textChoix
@@ -342,7 +334,7 @@ public class FenetrePpale extends JFrame {
 	
 	/**
 	 * Affichage de la liste des clients du gestionnaire (Choix 2 du menu)
-	 * @param liste La liste des clients à afficher 
+	 * @param lstClients La liste des clients à afficher 
 	 */
 	public void setListeClients(TreeSet<Client> lstClients) {
 		
@@ -377,9 +369,9 @@ public class FenetrePpale extends JFrame {
 		
 		// Vérification de la validité de l'entrée
 		int rep = -1;												// Initialise la valeur retournée à -1 (erreur par défaut)
-		if ( strRep.matches("^[0-9]+$") ) {							// Vérifie si la réponse est de type integer
+		if ( strRep.matches("^[0-3]+$") ) {							// Vérifie si la réponse est de type integer
 			int intRep = Integer.parseInt(strRep);
-			if (intRep>=0 && intRep<=5) {							// Vérifie si la réponse est dans {0-5}
+			if (intRep>=0 && intRep<=3) {							// Vérifie si la réponse est dans {0-5}
 				rep = intRep;										// Initialise la valeur retourné avec le choix
 			}	
 		}
@@ -408,7 +400,7 @@ public class FenetrePpale extends JFrame {
 	
 	/**
 	 * Ajoute un listener sur le bouton Valider
-	 * @param listenerBtnValider 
+	 * @param listenerBtnValider Le listener du bouton valider
 	 */
 	public void addValiderListener(ActionListener listenerBtnValider) {
 		btnValider.addActionListener(listenerBtnValider);
@@ -416,7 +408,7 @@ public class FenetrePpale extends JFrame {
 	
 	/**
 	 * Ajoute un listener sur la txtbox Choix
-	 * @param txtChoixKeyListener 
+	 * @param txtChoixKeyListener Le key listener
 	 */
 	public void addTxtChoixKeyListener(KeyListener txtChoixKeyListener) {
 		txtChoix.addKeyListener(txtChoixKeyListener);
