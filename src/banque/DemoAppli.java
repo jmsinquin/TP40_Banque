@@ -13,8 +13,10 @@ import banque.view.FenetrePpale;
 
 
 /**
- * @author OtObOx
- *
+ * NFA035 TP40 : Banque<br>
+ * Pattern MVC
+ * @author Jean-Marc SINQUIN
+ * @version V1.0
  */
 public class DemoAppli {
 

@@ -1,6 +1,11 @@
 package banque.model;
 
 
+/**
+ * @author Jean-Marc SINQUIN
+ * @version V1.0
+ *
+ */
 public class Compte {
 
     private String numCompte;
@@ -9,8 +14,8 @@ public class Compte {
     
 	/**
 	 * Constructeur
-	 * @param typeCpte Depot ou 
-	 * @param solde
+	 * @param typeCpte Dépot ou Placement
+	 * @param solde Le solde du compte
 	 */
 	public Compte(String typeCpte, float solde) {
 		this.numCompte = genererNouveauNumCompte();

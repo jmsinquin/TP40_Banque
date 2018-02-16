@@ -11,7 +11,7 @@ import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+//import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -24,11 +24,13 @@ import javax.swing.JTextField;
 
 import banque.model.Client;
 import banque.model.Compte;
+import banque.model.Gestionnaire;
 import banque.model.TrierComptes;
 
 /**
  * La partie VUE dans un pattern MVC
  * @author Jean-Marc SINQUIN
+ * @version V1.0
  */
 
 public class FenetrePpale extends JFrame {
@@ -38,13 +40,15 @@ public class FenetrePpale extends JFrame {
 	
 	// Constantes texte
 	private static final String BTN_VALIDATION = "Valider";
-	private static final String BTN_CLIENT = "Sélectionner";
-	private static final String LBL_CLIENT = "Clients :";
+//	private static final String BTN_CLIENT = "Sélectionner";
+//	private static final String LBL_CLIENT = "Clients :";
 	private static final String LBL_CLIENT_COMPTES = "Liste des comptes de ";
 	private static final String LBL_LST_COMPTES = "Liste des comptes :";
 	private static final String LBL_MENU_ACTION = "Menu actions :";
 	private static final String LBL_PF_GEST = "Liste clients du gestionnaire :";
 	private static final String LBL_PAT_CLIENT = "Patrimoine du client :";
+	private static final String LBL_SAVE = "Eléments à sauvegarder :";
+	private static final String BTN_SAVE = "Sauvegarder";
 	private static final String MENU_0 = "0- Fin session";
 	private static final String MENU_1 = "1- Liste des comptes";
 	private static final String MENU_2 = "2- Liste des clients";
@@ -58,25 +62,29 @@ public class FenetrePpale extends JFrame {
 	private static final int HT_FEN = 400;			// Hauteur fenêtre principale
 	
 	// Variables widgets
-	private JLabel lblAction = new JLabel(LBL_MENU_ACTION);
-	private JTextArea txtMenu = new JTextArea();
-	private JTextField txtChoix = new JTextField(MSG_GETCHOIX_01);
-	private JButton btnValider = new JButton(BTN_VALIDATION);
-	private JLabel lblPF = new JLabel(LBL_PF_GEST);
-	private JLabel lblCliComptes = new JLabel(LBL_CLIENT_COMPTES);		// Label liste des comptes du client sélectionné
-	private JComboBox<String> cmbClients = new JComboBox<String>();
-	private JLabel lblClient = new JLabel(LBL_CLIENT);
-	private JButton btnClient = new JButton(BTN_CLIENT);
-	private JLabel lblLstC = new JLabel(LBL_LST_COMPTES);
-	private JTable jtbLstC = new JTable();								// Table liste des comptes
+	private JLabel 		lblAction = new JLabel(LBL_MENU_ACTION);
+	private JTextArea 	txtMenu = new JTextArea();
+	private JTextField 	txtChoix = new JTextField(MSG_GETCHOIX_01);
+	private JButton 	btnValider = new JButton(BTN_VALIDATION);
+	private JLabel 		lblPF = new JLabel(LBL_PF_GEST);
+	private JLabel 		lblCliComptes = new JLabel(LBL_CLIENT_COMPTES);	// Label liste des comptes du client sélectionné
+//	private JComboBox<String> cmbClients = new JComboBox<String>();
+//	private JLabel 		lblClient = new JLabel(LBL_CLIENT);
+//	private JButton 	btnClient = new JButton(BTN_CLIENT);
+	private JLabel 		lblLstC = new JLabel(LBL_LST_COMPTES);
+	private JTable 		jtbLstC = new JTable();							// Table liste des comptes
 	private JScrollPane srlLstC = new JScrollPane(jtbLstC);				// Scroll pour la table liste des comptes
-	
-	private JTable jtbClient = new JTable();							// Table liste des clients
-	
-	private JTable jtbCpCl = new JTable();								// Table liste des comptes d'un client
+	// Panels client
+	private JTable 		jtbClient = new JTable();						// Table liste des client
+	private JTable 		jtbCpCl = new JTable();							// Table liste des comptes d'un client
 	private JScrollPane srlCpCl = new JScrollPane(jtbCpCl);				// Scroll pour la table liste des comptes d'un client
-	private JLabel lblPatClient = new JLabel(LBL_PAT_CLIENT);			// Label patrimoine client
-	private JTextField txtPatClient = new JTextField();					// TextBox patrimoine client
+	private JLabel 		lblPatClient = new JLabel(LBL_PAT_CLIENT);		// Label patrimoine client
+	private JTextField 	txtPatClient = new JTextField();				// TextBox patrimoine client
+	// Panel Save
+	private JLabel 		lblSave = new JLabel(LBL_SAVE);					// Label
+	private JTextArea 	txtSave = new JTextArea();						// Textarea
+	private JButton 	btnSave = new JButton(BTN_SAVE);				// Bouton
+	private JScrollPane srlSave = new JScrollPane();					// Scroll zone
 	
 	// Elements graphiques Zones
 	private Container panContent = this.getContentPane(); 				// Fenêtre principale
@@ -86,6 +94,7 @@ public class FenetrePpale extends JFrame {
 	private JPanel jpGest = new JPanel();								// Panel gérant les actions gestionnaire 
 	private JPanel jpLstC = new JPanel();								// Panel gérant la liste des comptes
 	private JPanel jpCpCl = new JPanel();								// Panel gérant la liste des comptes d'un client
+	private JPanel jpSave = new JPanel();								// Panel gérant la sauvegarde de la clientele
 
 	private JList<String> jlistPF = new JList<String>();
 	private JScrollPane srlPF = new JScrollPane(jlistPF);				// Scroll de la liste
@@ -124,21 +133,24 @@ public class FenetrePpale extends JFrame {
 		
 		// Ajout des différents sous-panels contenus dans le panel principal
 		construirePanMenu();				// Panel gauche : menu
-		construirePanClients();				// Panel clients
+//		construirePanClients();				// Panel clients
 		construirePanGest();				// Panel gestionnaire
 		construirePanListeComptes();		// Panel liste des comptes
+		construirePanSave();				// Panel sauvegarde
 		
 		// Positions et dimensions des sous-panels dans le panel principal
 		jpMenu.setBounds(  10, 10, 195, HT_FEN-50);
-		jpClie.setBounds( 215, 10, 200, HT_FEN-50);
+//		jpClie.setBounds( 215, 10, 200, HT_FEN-50);
 		jpGest.setBounds( 425, 10, 350, HT_FEN-50);
 		jpLstC.setBounds( 215, 10, 560, HT_FEN-50);
+		jpSave.setBounds( 215, 10, 560, HT_FEN-50); 	// Panneau Save
 		
 		// Comportement et apparence des composants
 		jpMenu.setBorder(BorderFactory.createLineBorder(Color.black));
 		jpClie.setBorder(BorderFactory.createLineBorder(Color.black));
 		jpGest.setBorder(BorderFactory.createLineBorder(Color.black));	
 		jpLstC.setBorder(BorderFactory.createLineBorder(Color.black));
+		jpSave.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
 	/**
@@ -188,9 +200,31 @@ public class FenetrePpale extends JFrame {
 		txtChoix.setToolTipText(MSG_GETCHOIX_01);						// Infobulle sur la textbox choix
 	}
 	
-	/*
+	private void construirePanSave() {
+		// Squelette du JPanel :
+			jpSave.setLayout( null );							// Aucun layout : positions absolues
+			jpPpal.add(jpSave);									// Ajout du sous-panel au panel principal
+			
+			// Ajout des widgets dans le JPanel Vertical
+			jpSave.add(lblSave);								// Ajoute le label
+			jpSave.add(srlSave);								// Ajoute la zone scrollable
+			srlSave.add(txtSave);								// Ajout la fenêtre de texte dans la zone scrollable
+			jpSave.add(btnSave);								// Ajoute le bouton	Save
+			
+			// Position des widgets (car layout type absolu) :
+			lblSave.setBounds( 10,  10, 150,  15);
+			srlSave.setBounds( 10,  40, 540, 255);
+			btnSave.setBounds( 420, 310, 125,  25);
+							
+			// Comportement et apparence des composants
+			txtSave.setEditable(false);										// Verrouille le contenu de la zone de texte
+			txtSave.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));	// Marges autour du texte menu
+	}
+	
+/*	
+	
 	 * JPanel milieu : Trésorerie des clients
-	 */
+	 
 	private void construirePanClients() {
 		// Squelette du JPanel :
 		jpClie.setLayout( null );							// Aucun layout : positions absolues
@@ -207,9 +241,8 @@ public class FenetrePpale extends JFrame {
 		btnClient.setBounds( 35, 75 , 125, 25);
 		
 		// Apparence des composants :
-		
-		
 	}
+*/	
 	
 	/*
 	 * JPanel de droite : Affiche la liste des noms et id des clients d'un gestionnaire
@@ -285,6 +318,7 @@ public class FenetrePpale extends JFrame {
 		jpClie.setVisible(false);	// Panneau client invisible par défaut
 		jpGest.setVisible(false);	// Panneau gestionnaire invisible par défaut
 		jpLstC.setVisible(false);	// Panneau liste compte invisible par défaut
+		jpSave.setVisible(true);	// Panneau sauvegarde invisible par défaut
 	}
 	
 	
@@ -316,8 +350,7 @@ public class FenetrePpale extends JFrame {
 			txtPatClient.setVisible(false);
 		}
 	}
-	
-	
+		
 	/** Affichage de la liste des comptes du gestionnaire (Choix 1 du menu)
 	 * @param cptListeComptes La liste des comptes à afficher
 	 */
@@ -345,6 +378,15 @@ public class FenetrePpale extends JFrame {
 		srlPF.setViewportView(jtbClient);							// Mise à jour scrollList
 		
 	}
+	
+	public void setSave(Gestionnaire gest) {
+		// Affichage du panel jpSave et masquage des autres panels (sauf panel menu)
+		setJpanelVisible(jpSave);
+		// Rajoute les données dans la zone de texte
+		txtSave.append(gest.getDonneesClients());
+		srlSave.setViewportView(txtSave);
+	}
+	
 	
 	/**
 	 * Affiche le JPanel Menu et le JPanel donné en paramètre
@@ -398,12 +440,29 @@ public class FenetrePpale extends JFrame {
 		return jtbClient;
 	}
 	
+	
+	/**
+	 * Retourne les données à sauvegarder
+	 * @return Les données contenues dans la textBox txtSave
+	 */
+	public String getDatasToSave() {
+		return txtSave.getText();
+	}
+	
 	/**
 	 * Ajoute un listener sur le bouton Valider
-	 * @param listenerBtnValider Le listener du bouton valider
+	 * @param listenerBtnValider Le listener du bouton Valider
 	 */
 	public void addValiderListener(ActionListener listenerBtnValider) {
 		btnValider.addActionListener(listenerBtnValider);
+	}
+	
+	/**
+	 * Ajoute un listener sur le bouton Sauvegarder
+	 * @param listenerBtnSave Le listener du bouton Sauvegarder
+	 */
+	public void addSaveListener(ActionListener listenerBtnSave) {
+		btnSave.addActionListener(listenerBtnSave);
 	}
 	
 	/**

@@ -9,6 +9,11 @@ import banque.model.Compte;
 
 // TUTO : http://baptiste-wicht.developpez.com/tutoriels/java/swing/jtable/
 	
+/**
+ * Arrange la source d'une JTable listant des comptes
+ * @author Jean-Marc SINQUIN
+ * @version V1.0
+ */
 public class ModeleListeComptes extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;

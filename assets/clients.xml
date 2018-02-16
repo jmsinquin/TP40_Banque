@@ -1,35 +1,97 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
+<?xml-stylesheet href="look.xsl" type="text/xsl"?>
 <!-- Sauvegarde de la clientele du banquier Rothchild -->
+<!-- Enregistré le Fri Feb 16 14:24:05 CET 2018 -->
 <gestionnaire nom="Rothchild">
     <client>
         <nom>Aline</nom>
         <id>123456IA</id>
         <age>53</age>
+        <comptes>
+             <compte no="020522">
+                  <type>Dépot</type>
+                  <solde>50667.32</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Bruno</nom>
         <id>234561OU</id>
         <age>25</age>
+        <comptes>
+             <compte no="077318">
+                  <type>Placement</type>
+                  <solde>81220.79</solde>
+             </compte>
+             <compte no="207522">
+                  <type>Placement</type>
+                  <solde>3768.21</solde>
+             </compte>
+             <compte no="867958">
+                  <type>Placement</type>
+                  <solde>987.59</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Charles</nom>
         <id>345621EA</id>
         <age>30</age>
+        <comptes>
+             <compte no="797529">
+                  <type>Dépot</type>
+                  <solde>63533.2</solde>
+             </compte>
+             <compte no="430044">
+                  <type>Dépot</type>
+                  <solde>72485.33</solde>
+             </compte>
+             <compte no="592122">
+                  <type>Placement</type>
+                  <solde>75167.52</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Diane</nom>
         <id>456321AI</id>
         <age>33</age>
+        <comptes>
+             <compte no="662576">
+                  <type>Placement</type>
+                  <solde>64804.58</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Elsa</nom>
         <id>123456AE</id>
         <age>45</age>
+        <comptes>
+             <compte no="220377">
+                  <type>Dépot</type>
+                  <solde>84260.32</solde>
+             </compte>
+             <compte no="570636">
+                  <type>Dépot</type>
+                  <solde>13828.85</solde>
+             </compte>
+             <compte no="652803">
+                  <type>Placement</type>
+                  <solde>11819.8</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Fabio</nom>
         <id>654321IA</id>
         <age>35</age>
+        <comptes>
+             <compte no="922053">
+                  <type>Placement</type>
+                  <solde>27401.93</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Genna</nom>
@@ -40,6 +102,12 @@
         <nom>Hylan</nom>
         <id>135246AY</id>
         <age>35</age>
+        <comptes>
+             <compte no="614156">
+                  <type>Dépot</type>
+                  <solde>96952.85</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Izza</nom>
@@ -50,15 +118,49 @@
         <nom>Jaber</nom>
         <id>564123EA</id>
         <age>45</age>
+        <comptes>
+             <compte no="016684">
+                  <type>Dépot</type>
+                  <solde>90881.92</solde>
+             </compte>
+             <compte no="710907">
+                  <type>Placement</type>
+                  <solde>77668.57</solde>
+             </compte>
+             <compte no="796626">
+                  <type>Placement</type>
+                  <solde>21583.48</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Karen</nom>
         <id>561263EA</id>
         <age>65</age>
+        <comptes>
+             <compte no="093660">
+                  <type>Dépot</type>
+                  <solde>30335.43</solde>
+             </compte>
+             <compte no="107191">
+                  <type>Placement</type>
+                  <solde>17612.83</solde>
+             </compte>
+        </comptes>
     </client>
     <client>
         <nom>Leone</nom>
         <id>364521OE</id>
         <age>35</age>
+        <comptes>
+             <compte no="642044">
+                  <type>Placement</type>
+                  <solde>46263.19</solde>
+             </compte>
+             <compte no="336410">
+                  <type>Dépot</type>
+                  <solde>68577.93</solde>
+             </compte>
+        </comptes>
     </client>
 </gestionnaire>

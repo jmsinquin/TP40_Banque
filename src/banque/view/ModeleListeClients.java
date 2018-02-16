@@ -8,6 +8,12 @@ import banque.model.Client;
 
 
 
+/**
+ * Arrange la source d'une JTable listant les clients
+ * @author Jean-Marc SINQUIN
+ * @version V1.0
+ *
+ */
 public class ModeleListeClients extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;

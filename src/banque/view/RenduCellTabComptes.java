@@ -10,6 +10,15 @@ import java.util.Locale;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+/**
+ * Mise en forme des cellules d'une JTable listant des comptes<br>
+ * - Formatage des nombres en caractères fixes Monospace (type Courrier new)<br>
+ * - Formatage des montants monaires en format français<br>
+ * - Mise en rouge des montants négatifs
+ * @author Jean-Marc SINQUIN
+ * @version V1.0
+ *
+ */
 public class RenduCellTabComptes extends DefaultTableCellRenderer {
 
 	private static final long serialVersionUID = 1L;

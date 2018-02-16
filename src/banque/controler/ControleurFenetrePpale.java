@@ -17,8 +17,9 @@ import banque.view.ModeleListeClients;
 
 
 /**
- * @author Jean-Marc
  * La partie CONTROLEUR dans un pattern MVC
+ * @author Jean-Marc SINQUIN
+ * @version V1.0
  */
 public class ControleurFenetrePpale {
 	private FenetrePpale fen;
@@ -40,6 +41,7 @@ public class ControleurFenetrePpale {
 		
 		// Ajout des écouteurs
 		fen.addValiderListener(new btnValiderListener());			// Ajout ActionListener bouton Valider (clic)
+		fen.addSaveListener(new btnSaveListener());					// Ajout ActionListener bouton Sauvegarder (clic)
 		fen.addTxtChoixKeyListener(new txtChoixKeyListener());		// Ajout KeyListener txtChoix (clavier Entrée)
 		lsm.addListSelectionListener(new jListClientsListener());	// Ajout d'un ListSelectionListener (Liste client)
 	}
@@ -64,12 +66,21 @@ public class ControleurFenetrePpale {
 		
 	}
 	
-	// Inner class Bouton valider
+	// Inner class Bouton Valider
 	class btnValiderListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			choixMenu();
+		}
+	}
+	
+	// Inner class Bouton Sauvegarder
+	class btnSaveListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			saveFile();
 		}
 	}
 	
@@ -143,7 +154,11 @@ public class ControleurFenetrePpale {
 	
 	private void saveClients() {
 		System.out.println("saveClients");
-		gest.sauverClientele();
+		fen.setSave(gest);
+	}
+	
+	private void saveFile() {
+		gest.sauverClientele(fen.getDatasToSave());
 	}
 	
 }

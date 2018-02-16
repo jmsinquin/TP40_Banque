@@ -5,7 +5,7 @@ import java.util.Comparator;
 /**
  * Trie les personnes en ordre alphabétique.<br>
  * @author Jean-Marc SINQUIN
- *
+ * @version V1.0
  */
 public class TrierPersonne implements Comparator<Personne> {
 

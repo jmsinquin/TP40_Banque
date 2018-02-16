@@ -9,7 +9,7 @@ import java.util.Locale;
 
 /**
  * @author Jean-Marc SINQUIN
- *
+ * @version V1.0
  */
 public class Client extends Personne implements Comparable<Client> {
 
@@ -169,16 +169,18 @@ public class Client extends Personne implements Comparable<Client> {
 	
 	
 	/**
-	 * @param numCompte
-	 * @param montant
+	 * Crédite ce client d'une somme
+	 * @param numCompte Numéro du compte à créditer
+	 * @param montant Montant à créditer
 	 */
 	public void crediter(String numCompte, float montant) {
 		updateSolde(numCompte, montant);
 	}
 	
 	/**
-	 * @param numCompte
-	 * @param montant
+	 * Débite ce client d'un somme
+	 * @param numCompte Numéro du compte à débiter
+	 * @param montant Montant à débiter
 	 */
 	public void debiter(String numCompte, float montant) {
 		montant = ( montant<0 ? -montant : montant);
@@ -186,10 +188,11 @@ public class Client extends Personne implements Comparable<Client> {
 	}
 	
 	/**
-	 * @param numCpteDebit 
-	 * @param crediteur
-	 * @param numCpteCredit
-	 * @param montant
+	 * Tranfère une somme d'un compte de ce client vers un compte d'un autre client
+	 * @param numCpteDebit Le compte de ce client à débiter
+	 * @param crediteur Le client à créditer
+	 * @param numCpteCredit Le compte du client à créditer
+	 * @param montant Montant à transférer
 	 */
 	public void transferer(String numCpteDebit, Client crediteur, String numCpteCredit, float montant) {
 		updateSolde(numCpteDebit, -montant);
@@ -197,8 +200,9 @@ public class Client extends Personne implements Comparable<Client> {
 	}
 	
 	/**
-	 * @param numCompte Numéro de compte
-	 * @param montant 
+	 * Mise à jour du solde d'un compte de ce client
+	 * @param numCompte Numéro de compte à mettre à jour
+	 * @param montant  Montant à créditer/débiter
 	 */
 	private void updateSolde(String numCompte, float montant) {
 		try {
@@ -211,14 +215,16 @@ public class Client extends Personne implements Comparable<Client> {
 	}
 	
 	/**
-	 * @param cpte
-	 * @param montant
+	 * Crédite/débite un compte de ce client
+	 * @param cpte Le compte à créditer/débiter
+	 * @param montant Le montant à créditer/débiter
 	 */
 	public void setSoldeCompte(Compte cpte, float montant) {
 		cpte.setSolde(montant);
 	}
 	
 	/*
+	 * Retourne un compte à partir de son numéro
 	 * @return un objet compte à partir de son numéro (null si pas trouvé)
 	 */
 	public Compte getCompteFromIdCompte(String idCompte) {
@@ -232,6 +238,7 @@ public class Client extends Personne implements Comparable<Client> {
 	}
 
 	/**
+	 * Donne le patrimoine de ce client
 	 * @return La somme des soldes des comptes du client
 	 */
 	public float getPatrimoine() {
@@ -252,7 +259,7 @@ public class Client extends Personne implements Comparable<Client> {
 	
 	
 	/**
-	 * Donne le patrimoine formaté monaitaire francais
+	 * Donne le patrimoine de ce client au format monaitaire francais
 	 * @return Le patrimoine du client formaté
 	 */
 	public String getPatrimoineToString() {

@@ -3,9 +3,15 @@ package banque.model;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+/**
+ * @author Jean-Marc
+ * @version V1.0
+ *
+ */
 public class Gestionnaire extends Personne {
 
 	private String numMat;
@@ -168,6 +174,8 @@ public class Gestionnaire extends Personne {
 	}
 	
 	/**
+	 * Retourne le patrimone d'un client
+	 * @param client Le client dont on veut retourner le patrimoine
 	 * @return La somme des soldes des comptes d'un client
 	 */
 	public float getPatrimoine(Client client) {
@@ -175,31 +183,22 @@ public class Gestionnaire extends Personne {
 		return client.getPatrimoine();
 	}
 	
-	public void sauverClientele() {
+	/**
+	 * Ecrit dans un fichier les données passées en paramètre
+	 * @param datas Les données à écrire
+	 */
+	public void sauverClientele(String datas) {
        File fichier =new File(URL); 
-       Iterator<Client> itr = clients.iterator();
+       
        
        try {
     	   // Creation du fichier
     	   fichier.createNewFile();
     	   // creation d'un writer
     	   FileWriter writer = new FileWriter(fichier);
-
     	   try {
-    		   writer.write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n");
-    		   writer.write("<!-- Sauvegarde de la clientele du banquier " + this.getPrenom() + " -->\n");
-    		   writer.write("<gestionnaire nom=\"" + this.getPrenom() + "\">\n");
-    		   while(itr.hasNext()) {
-    			   Client client = itr.next();
-    			   String s = "";
-    			   s = "    <client>\n";
-    			   s += "        <nom>" + client.getPrenom() + "</nom>\n";
-    			   s += "        <id>" + client.getIdClient() + "</id>\n";
-    			   s += "        <age>" + client.getAge() + "</age>\n";
-    			   s += "    </client>\n";
-    			   writer.write(s);
-    		   }
-    		   writer.write("</gestionnaire>\n");
+    		   writer.write(datas);
+    		   System.out.println("Fichier " + URL + " sauvegardé.");
     	   } 
     	   finally {
     	   writer.close();  // Fermeture du fichier
@@ -209,5 +208,47 @@ public class Gestionnaire extends Personne {
 		System.out.println("Erreur dans la création du le fichier");
 		System.out.println(e.getMessage());
 		}
+	}
+	
+	/**
+	 * Retourne une chaine de caractères contenant les données à sauvegarder dans un fichier
+	 * @return Les données à sauvegarder dans un fichier
+	 */
+	public String getDonneesClients() {
+		Iterator<Client> itr = clients.iterator();
+		//Date date = new Date();
+		Calendar c = Calendar.getInstance();
+		
+		String donnees = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
+		donnees += "<?xml-stylesheet href=\"look.xsl\" type=\"text/xsl\"?>\n";
+		donnees += "<!-- Sauvegarde de la clientele du banquier " + this.getPrenom() + " -->\n";
+		donnees += "<!-- Enregistré le " + c.getTime() + " -->\n";
+		donnees += "<gestionnaire nom=\"" + this.getPrenom() + "\">\n";
+		while(itr.hasNext()) {																		// Itération sur les clients
+			   Client client = itr.next();
+			   String s = "";
+			   s = "    <client>\n";
+			   s += "        <nom>" + client.getPrenom() + "</nom>\n";
+			   s += "        <id>" + client.getIdClient() + "</id>\n";
+			   s += "        <age>" + client.getAge() + "</age>\n";
+			   ArrayList<Compte> comptes = client.getListeComptes();
+			   if (comptes.size() != 0) {															// Itération sur les comptes s'ils existent
+				   Iterator<Compte> itrCompte = comptes.iterator();
+				   s += "        <comptes>\n";
+				   while(itrCompte.hasNext()) {
+					   Compte compte = itrCompte.next();
+					   s += "             <compte no=\"" + compte.getNumCompte() + "\">\n";
+					   s += "                  <type>" + compte.getType() + "</type>\n";
+					   s += "                  <solde>" + compte.getSolde() + "</solde>\n";
+					   s += "             </compte>\n";
+				   }
+				   s += "        </comptes>\n";
+			   }
+			   s += "    </client>\n";
+			   donnees += s;
+		   }
+		donnees += "</gestionnaire>\n";
+		
+		return donnees;
 	}
 }
